@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}{{ listing.title }} - Море Лазаревское{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <!-- Заголовок -->
+        <div class="mb-4">
+            <h1>{{ listing.title }}</h1>
+            <div class="d-flex align-items-center text-muted">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                <span>{{ listing.location }}</span>
+                {% if listing.address %}
+                    <span class="ms-2">• {{ listing.address }}</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Изображения -->
+        {% if listing.images %}
+            {% set image_list = listing.images.split(',') %}
+            <div class="mb-4">
+                <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in image_list %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ url_for('static', filename='uploads/' + image) }}" 
+                                 class="d-block w-100" alt="{{ listing.title }}" style="height: 400px; object-fit: cover;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if image_list|length > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="mb-4">
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <i class="fas fa-image fa-5x text-muted"></i>
+                </div>
+            </div>
+        {% endif %}
+        
+        <!-- Описание -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Описание</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ listing.description }}</p>
+            </div>
+        </div>
+        
+        <!-- Характеристики -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Характеристики</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% if listing.rooms %}
+                    <div class="col-md-6 mb-3">
+                        <strong><i class="fas fa-bed text-primary"></i> Количество комнат:</strong>
+                        <span class="ms-2">{{ listing.rooms }}</span>
+                    </div>
+                    {% endif %}
+                    {% if listing.area %}
+                    <div class="col-md-6 mb-3">
+                        <strong><i class="fas fa-expand-arrows-alt text-primary"></i> Площадь:</strong>
+                        <span class="ms-2">{{ listing.area }} м²</span>
+                    </div>
+                    {% endif %}
+                    {% if listing.max_guests %}
+                    <div class="col-md-6 mb-3">
+                        <strong><i class="fas fa-users text-primary"></i> Максимум гостей:</strong>
+                        <span class="ms-2">{{ listing.max_guests }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-6 mb-3">
+                        <strong><i class="fas fa-tag text-primary"></i> Категория:</strong>
+                        <span class="ms-2">{{ listing.category.name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Удобства -->
+        {% if listing.amenities %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Удобства</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% set amenities_list = listing.amenities.split(',') %}
+                    {% for amenity in amenities_list %}
+                    <div class="col-md-6 mb-2">
+                        <i class="fas fa-check text-success"></i> {{ amenity }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <!-- Цена и контакты -->
+        <div class="card sticky-top" style="top: 20px;">
+            <div class="card-body text-center">
+                <h2 class="text-success mb-3">{{ listing.price }} ₽</h2>
+                <p class="text-muted">за размещение</p>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#contactModal">
+                        <i class="fas fa-phone"></i> Связаться с владельцем
+                    </button>
+                    <button class="btn btn-outline-secondary">
+                        <i class="fas fa-heart"></i> Добавить в избранное
+                    </button>
+                </div>
+                
+                <hr>
+                
+                <div class="text-start">
+                    <h6>Информация о владельце</h6>
+                    <p class="mb-1"><strong>Имя:</strong> {{ listing.author.username }}</p>
+                    <p class="mb-1"><strong>Размещено:</strong> {{ listing.created_at.strftime('%d.%m.%Y') }}</p>
+                    {% if listing.author.phone %}
+                        <p class="mb-0"><strong>Телефон:</strong> {{ listing.author.phone }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для связи -->
+<div class="modal fade" id="contactModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Связаться с владельцем</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Владелец:</strong> {{ listing.author.username }}</p>
+                {% if listing.author.phone %}
+                    <p><strong>Телефон:</strong> {{ listing.author.phone }}</p>
+                {% endif %}
+                <p><strong>Email:</strong> {{ listing.author.email }}</p>
+                <hr>
+                <p class="text-muted">Свяжитесь с владельцем напрямую для уточнения деталей и бронирования.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Разместить объявление - Море Лазаревское{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3><i class="fas fa-plus"></i> Разместить объявление</h3>
+                <p class="text-muted">Заполните форму для размещения вашего объявления</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Заголовок объявления *</label>
+                                <input type="text" class="form-control" id="title" name="title" required 
+                                       placeholder="Например: Уютная комната у моря">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Категория *</label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Выберите категорию</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание *</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required
+                                  placeholder="Подробно опишите ваше жилье, его особенности и преимущества"></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Цена (руб.) *</label>
+                                <input type="number" class="form-control" id="price" name="price" required min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="rooms" class="form-label">Количество комнат</label>
+                                <input type="number" class="form-control" id="rooms" name="rooms" min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="area" class="form-label">Площадь (м²)</label>
+                                <input type="number" class="form-control" id="area" name="area" min="0" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Район/Местоположение *</label>
+                                <input type="text" class="form-control" id="location" name="location" required
+                                       placeholder="Например: Лазаревское, Центр">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="max_guests" class="form-label">Максимум гостей</label>
+                                <input type="number" class="form-control" id="max_guests" name="max_guests" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Точный адрес</label>
+                        <input type="text" class="form-control" id="address" name="address"
+                               placeholder="Улица, дом, квартира">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Удобства</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_wifi" name="amenity_wifi">
+                                    <label class="form-check-label" for="amenity_wifi">Wi-Fi</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_kitchen" name="amenity_kitchen">
+                                    <label class="form-check-label" for="amenity_kitchen">Кухня</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_parking" name="amenity_parking">
+                                    <label class="form-check-label" for="amenity_parking">Парковка</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_air_conditioning" name="amenity_air_conditioning">
+                                    <label class="form-check-label" for="amenity_air_conditioning">Кондиционер</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_balcony" name="amenity_balcony">
+                                    <label class="form-check-label" for="amenity_balcony">Балкон</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_sea_view" name="amenity_sea_view">
+                                    <label class="form-check-label" for="amenity_sea_view">Вид на море</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_washing_machine" name="amenity_washing_machine">
+                                    <label class="form-check-label" for="amenity_washing_machine">Стиральная машина</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_tv" name="amenity_tv">
+                                    <label class="form-check-label" for="amenity_tv">Телевизор</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_beach_access" name="amenity_beach_access">
+                                    <label class="form-check-label" for="amenity_beach_access">Доступ к пляжу</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="images" class="form-label">Фотографии</label>
+                        <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                        <div class="form-text">Выберите до 10 фотографий (JPG, PNG, до 16MB каждая)</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-plus"></i> Разместить объявление
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

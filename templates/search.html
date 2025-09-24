@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск жилья - Море Лазаревское{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <!-- Фильтры -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Фильтры</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('search') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Поиск</label>
+                        <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Ключевые слова">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Категория</label>
+                        <select class="form-select" name="category">
+                            <option value="">Все категории</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if category_id == category.id|string %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Местоположение</label>
+                        <input type="text" class="form-control" name="location" value="{{ location }}" placeholder="Район или адрес">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Цена от (руб.)</label>
+                        <input type="number" class="form-control" name="min_price" value="{{ min_price }}" placeholder="0">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Цена до (руб.)</label>
+                        <input type="number" class="form-control" name="max_price" value="{{ max_price }}" placeholder="100000">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Применить фильтры
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <!-- Результаты поиска -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Результаты поиска</h2>
+            <span class="text-muted">Найдено: {{ listings|length }} объявлений</span>
+        </div>
+        
+        {% if listings %}
+            <div class="row">
+                {% for listing in listings %}
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 listing-card">
+                        {% if listing.images %}
+                            {% set image_list = listing.images.split(',') %}
+                            <img src="{{ url_for('static', filename='uploads/' + image_list[0]) }}" 
+                                 class="card-img-top" alt="{{ listing.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text text-muted">
+                                <i class="fas fa-map-marker-alt"></i> {{ listing.location }}
+                            </p>
+                            <p class="card-text flex-grow-1">{{ listing.description[:100] }}{% if listing.description|length > 100 %}...{% endif %}</p>
+                            
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-primary">{{ listing.category.name }}</span>
+                                    <span class="h5 text-success mb-0">{{ listing.price }} ₽</span>
+                                </div>
+                                <div class="mt-2">
+                                    {% if listing.rooms %}
+                                        <small class="text-muted">
+                                            <i class="fas fa-bed"></i> {{ listing.rooms }} комн.
+                                        </small>
+                                    {% endif %}
+                                    {% if listing.area %}
+                                        <small class="text-muted ms-2">
+                                            <i class="fas fa-expand-arrows-alt"></i> {{ listing.area }} м²
+                                        </small>
+                                    {% endif %}
+                                    {% if listing.max_guests %}
+                                        <small class="text-muted ms-2">
+                                            <i class="fas fa-users"></i> до {{ listing.max_guests }} чел.
+                                        </small>
+                                    {% endif %}
+                                </div>
+                                <a href="{{ url_for('listing_detail', listing_id=listing.id) }}" class="btn btn-primary w-100 mt-2">
+                                    Подробнее
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-5x text-muted mb-3"></i>
+                <h3>Ничего не найдено</h3>
+                <p class="text-muted">Попробуйте изменить параметры поиска</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">
+                    <i class="fas fa-home"></i> На главную
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Мои объявления - Море Лазаревское{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-list"></i> Мои объявления</h2>
+    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Добавить объявление
+    </a>
+</div>
+
+{% if listings %}
+    <div class="row">
+        {% for listing in listings %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 listing-card">
+                {% if listing.images %}
+                    {% set image_list = listing.images.split(',') %}
+                    <img src="{{ url_for('static', filename='uploads/' + image_list[0]) }}" 
+                         class="card-img-top" alt="{{ listing.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="card-text text-muted">{{ listing.location }}</p>
+                    <p class="card-text flex-grow-1">{{ listing.description[:100] }}{% if listing.description|length > 100 %}...{% endif %}</p>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">{{ listing.category.name }}</span>
+                            <span class="h5 text-success mb-0">{{ listing.price }} ₽</span>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <span class="badge {% if listing.is_active %}bg-success{% else %}bg-secondary{% endif %}">
+                                {% if listing.is_active %}Активно{% else %}Неактивно{% endif %}
+                            </span>
+                            <small class="text-muted ms-2">
+                                {{ listing.created_at.strftime('%d.%m.%Y') }}
+                            </small>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <a href="{{ url_for('listing_detail', listing_id=listing.id) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-eye"></i> Просмотр
+                            </a>
+                            <button class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-edit"></i> Редактировать
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-trash"></i> Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-home fa-5x text-muted mb-3"></i>
+        <h3>У вас пока нет объявлений</h3>
+        <p class="text-muted">Разместите свое первое объявление и начните зарабатывать!</p>
+        <a href="{{ url_for('create_listing') }}" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus"></i> Разместить объявление
+        </a>
+    </div>
+{% endif %}
+{% endblock %}

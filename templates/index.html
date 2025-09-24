@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Море Лазаревское - Главная{% endblock %}
+
+{% block content %}
+<!-- Героический блок с поиском -->
+<div class="hero-section bg-primary text-white py-5 mb-5 rounded">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold">Найдите идеальное жилье в Лазаревском</h1>
+                <p class="lead">От койки-места до роскошного отеля - у нас есть все варианты размещения</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Поиск жилья</h5>
+                        <form action="{{ url_for('search') }}" method="GET">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="q" placeholder="Что ищете? (комната, квартира, отель...)" value="{{ request.args.get('q', '') }}">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <select class="form-select" name="category">
+                                        <option value="">Все категории</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" name="location" placeholder="Район или адрес">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="number" class="form-control" name="min_price" placeholder="Цена от (руб.)">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="number" class="form-control" name="max_price" placeholder="Цена до (руб.)">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Найти жилье
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Категории -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="text-center mb-4">Категории жилья</h2>
+    </div>
+    {% for category in categories %}
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card h-100 category-card">
+            <div class="card-body text-center">
+                <i class="fas fa-home fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">{{ category.name }}</h5>
+                <p class="card-text">{{ category.description }}</p>
+                <a href="{{ url_for('search', category=category.id) }}" class="btn btn-outline-primary">Смотреть</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Последние объявления -->
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Последние объявления</h2>
+    </div>
+    
+    {% if listings %}
+        {% for listing in listings %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 listing-card">
+                {% if listing.images %}
+                    {% set image_list = listing.images.split(',') %}
+                    <img src="{{ url_for('static', filename='uploads/' + image_list[0]) }}" 
+                         class="card-img-top" alt="{{ listing.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="card-text text-muted">{{ listing.location }}</p>
+                    <p class="card-text flex-grow-1">{{ listing.description[:100] }}{% if listing.description|length > 100 %}...{% endif %}</p>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">{{ listing.category.name }}</span>
+                            <span class="h5 text-success mb-0">{{ listing.price }} ₽</span>
+                        </div>
+                        <div class="mt-2">
+                            {% if listing.rooms %}
+                                <small class="text-muted">
+                                    <i class="fas fa-bed"></i> {{ listing.rooms }} комн.
+                                </small>
+                            {% endif %}
+                            {% if listing.area %}
+                                <small class="text-muted ms-2">
+                                    <i class="fas fa-expand-arrows-alt"></i> {{ listing.area }} м²
+                                </small>
+                            {% endif %}
+                            {% if listing.max_guests %}
+                                <small class="text-muted ms-2">
+                                    <i class="fas fa-users"></i> до {{ listing.max_guests }} чел.
+                                </small>
+                            {% endif %}
+                        </div>
+                        <a href="{{ url_for('listing_detail', listing_id=listing.id) }}" class="btn btn-primary w-100 mt-2">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="fas fa-home fa-5x text-muted mb-3"></i>
+                <h3>Пока нет объявлений</h3>
+                <p class="text-muted">Станьте первым, кто разместит объявление!</p>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Разместить объявление
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Зарегистрироваться
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Призыв к действию -->
+{% if not current_user.is_authenticated %}
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <h3>Хотите разместить свое объявление?</h3>
+                <p class="text-muted">Присоединяйтесь к нашему сообществу и начните зарабатывать на своем жилье</p>
+                <a href="{{ url_for('register') }}" class="btn btn-success btn-lg me-3">
+                    <i class="fas fa-user-plus"></i> Зарегистрироваться
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
