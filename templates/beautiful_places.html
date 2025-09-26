@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+
+{% block title %}Где отдохнуть{% endblock %}
+
+{% block content %}
+<!-- Героический блок -->
+<div class="hero-section bg-gradient text-white py-5 mb-5 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold">
+                    <i class="fas fa-mountain"></i> Красивые места Краснодарского края
+                </h1>
+                <p class="lead">Откройте для себя удивительные уголки природы, исторические достопримечательности и уникальные места для отдыха</p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="fas fa-camera-retro fa-5x opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Категории мест -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="text-center mb-4">Категории мест</h2>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card h-100 category-card">
+            <div class="card-body text-center">
+                <i class="fas fa-mountain fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Горы и хребты</h5>
+                <p class="card-text">Величественные горы, хребты и перевалы</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card h-100 category-card">
+            <div class="card-body text-center">
+                <i class="fas fa-water fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Водопады и реки</h5>
+                <p class="card-text">Живописные водопады, горные реки и озера</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card h-100 category-card">
+            <div class="card-body text-center">
+                <i class="fas fa-tree fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Парки и заповедники</h5>
+                <p class="card-text">Национальные парки и природные заповедники</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card h-100 category-card">
+            <div class="card-body text-center">
+                <i class="fas fa-monument fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Исторические места</h5>
+                <p class="card-text">Дольмены, крепости и археологические памятники</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Популярные места -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="mb-4">Популярные места для посещения</h2>
+    </div>
+    
+    <!-- Горный хребет Фишт -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/1.webp') }}" 
+                 class="card-img-top" alt="Горный хребет Фишт" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-mountain"></i> Горный хребет Фишт
+                </h5>
+                <p class="card-text">
+                    Один из самых известных горных массивов Западного Кавказа. 
+                    Высота — 2 867 м. Доступен для треккинга и альпинизма. 
+                    Входит в состав национального парка «Сочинский».
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary">Горы</span>
+                    <small class="text-muted">Адыгея / Краснодарский край</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Водопады Руфабго -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/2.webp') }}" 
+                 class="card-img-top" alt="Водопады Руфабго" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-water"></i> Водопады Руфабго
+                </h5>
+                <p class="card-text">
+                    Каскад из 7 водопадов в живописном ущелье. Общая высота падения воды — около 70 м. 
+                    Есть подвесные мосты и смотровые площадки. Один из самых посещаемых природных объектов.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-info">Водопады</span>
+                    <small class="text-muted">Лазаревский район, Сочи</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Дольмены Краснодарского края -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/3.webp') }}" 
+                 class="card-img-top" alt="Дольмены Краснодарского края" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-monument"></i> Дольмены Краснодарского края
+                </h5>
+                <p class="card-text">
+                    Мегалитические сооружения возрастом 4–5 тыс. лет. Самый известный — дольмен у хутора Жанэ (Геленджик). 
+                    Многие дольмены находятся в лесу и доступны для самостоятельного посещения.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-warning">История</span>
+                    <small class="text-muted">Геленджик, Новороссийск</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Красная Поляна -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/4.webp') }}" 
+                 class="card-img-top" alt="Красная Поляна" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-skiing"></i> Красная Поляна
+                </h5>
+                <p class="card-text">
+                    Горнолыжный курорт мирового уровня, центр зимних Олимпийских игр 2014 года. 
+                    Крупнейшие комплексы: «Роза Хутор», «Газпром». Летом — популярное место для треккинга.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary">Горы</span>
+                    <small class="text-muted">Адлерский район, Сочи</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Город-курорт Сочи -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/5.webp') }}" 
+                 class="card-img-top" alt="Город-курорт Сочи" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-city"></i> Город-курорт Сочи
+                </h5>
+                <p class="card-text">
+                    Самый длинный город России (145 км вдоль моря). Сочетает морской отдых, 
+                    субтропическую природу и современную инфраструктуру. Парк «Дендрарий», 
+                    океанариум, набережная.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-success">Курорт</span>
+                    <small class="text-muted">Черноморское побережье</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Абрау-Дюрсо -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/6.webp') }}" 
+                 class="card-img-top" alt="Абрау-Дюрсо" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-wine-glass"></i> Абрау-Дюрсо
+                </h5>
+                <p class="card-text">
+                    Винодельческое хозяйство с подземными тоннелями и озером Абрау. 
+                    Основано в 1870 году по указу Александра III. Экскурсии по винным погребам и дегустации.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-warning">Виноделие</span>
+                    <small class="text-muted">Новороссийский район</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Геленджикская набережная -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/7.webp') }}" 
+                 class="card-img-top" alt="Геленджикская набережная" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-umbrella-beach"></i> Геленджикская набережная
+                </h5>
+                <p class="card-text">
+                    Прогулочная зона вдоль моря с фонтанами, скульптурами и архитектурной композицией «Паруса». 
+                    Набережная — одна из самых длинных в Европе (около 13 км).
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-info">Набережная</span>
+                    <small class="text-muted">Геленджик</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Гора Ахун -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/8.webp') }}" 
+                 class="card-img-top" alt="Гора Ахун" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-mountain"></i> Гора Ахун
+                </h5>
+                <p class="card-text">
+                    Наивысшая точка Сочи (663 м). С вершины открывается панорама моря и гор. 
+                    На вершине — смотровая башня, построенная в 1936 году. Доступна на машине или пешком.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary">Горы</span>
+                    <small class="text-muted">Сочи</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Тисо-самшитовая роща -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/9.webp') }}" 
+                 class="card-img-top" alt="Тисо-самшитовая роща" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-tree"></i> Тисо-самшитовая роща
+                </h5>
+                <p class="card-text">
+                    Уникальный ботанический заказник с реликтовыми деревьями возрастом до 2 000 лет. 
+                    Входит в состав Кавказского биосферного заповедника. Самшит и тис — редкие и охраняемые виды.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-success">Природа</span>
+                    <small class="text-muted">Хостинский район, Сочи</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Новороссийск и Малая Земля -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/beautiful_places/10.webp') }}" 
+                 class="card-img-top" alt="Новороссийск и Малая Земля" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-monument"></i> Новороссийск и Малая Земля
+                </h5>
+                <p class="card-text">
+                    Мемориальный комплекс в честь героев десанта 1943 года. «Малая Земля» — плацдарм, 
+                    удерживаемый советскими войсками 225 дней. Рядом — музей и Вечный огонь.
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-danger">История</span>
+                    <small class="text-muted">Новороссийск</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Дополнительные места -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h3 class="mb-4">Другие интересные места</h3>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-umbrella-beach text-primary"></i> Пляжи Лазаревского
+                </h6>
+                <p class="card-text small">Галечные пляжи с чистой водой и красивыми видами на горы. Идеально для семейного отдыха.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-water text-info"></i> Водопады "33 водопада"
+                </h6>
+                <p class="card-text small">Каскад водопадов в ущелье реки Шахе. Один из самых живописных маршрутов.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-mountain text-warning"></i> Скала "Парус"
+                </h6>
+                <p class="card-text small">Уникальная скала в форме паруса на берегу моря. Символ Геленджика.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-water text-primary"></i> Озеро Кардывач
+                </h6>
+                <p class="card-text small">Высокогорное озеро с кристально чистой водой. Одно из самых красивых озер Кавказа.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-tree text-success"></i> Парк "Дендрарий"
+                </h6>
+                <p class="card-text small">Ботанический сад с уникальной коллекцией растений со всего мира.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-fish text-info"></i> Сочинский океанариум
+                </h6>
+                <p class="card-text small">Современный океанариум с морскими обитателями и подводным туннелем.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Советы для туристов -->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="fas fa-lightbulb text-warning"></i> Советы для туристов
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Что взять с собой:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Удобную обувь для ходьбы</li>
+                            <li><i class="fas fa-check text-success"></i> Воду и перекус</li>
+                            <li><i class="fas fa-check text-success"></i> Фотоаппарат или телефон</li>
+                            <li><i class="fas fa-check text-success"></i> Солнцезащитные очки</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Лучшее время для посещения:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-sun text-warning"></i> Весна (апрель-май) - цветение</li>
+                            <li><i class="fas fa-sun text-warning"></i> Лето (июнь-август) - тепло</li>
+                            <li><i class="fas fa-leaf text-success"></i> Осень (сентябрь-октябрь) - краски</li>
+                            <li><i class="fas fa-snowflake text-info"></i> Зима (декабрь-февраль) - снег</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

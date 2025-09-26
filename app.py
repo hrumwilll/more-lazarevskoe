@@ -238,6 +238,11 @@ def my_listings():
     listings = Listing.query.filter_by(user_id=current_user.id).order_by(Listing.created_at.desc()).all()
     return render_template('my_listings.html', listings=listings)
 
+@app.route('/beautiful_places')
+def beautiful_places():
+    """Страница с красивыми местами для отдыха в Краснодарском крае"""
+    return render_template('beautiful_places.html')
+
 # Инициализация базы данных
 def init_db():
     with app.app_context():
